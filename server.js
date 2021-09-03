@@ -1,0 +1,49 @@
+const express = require('express');
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const mongoSanitize = require('express-mongo-sanitize');
+const compression = require('compression');
+const cors = require('cors');
+const passport = require('passport');
+const { errorConverter, errorHandler } = require('./middlewares/error');
+const { authLimiter } = require('./middlewares/rateLimiter');
+const { jwtStrategy } = require('./config/passport');
+const config = require('./config/config')
+
+const app = express();
+// parse urlencoded request body
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// sanitize request data
+app.use(xss());
+app.use(mongoSanitize());
+
+// gzip compression
+app.use(compression());
+
+// enable cors
+app.use(cors());
+app.options('*', cors());
+
+// jwt authentication
+app.use(passport.initialize());
+passport.use('jwt', jwtStrategy);
+
+// limit repeated failed requests to auth endpoints
+if (config.env === 'production') {
+    app.use('/v1/auth', authLimiter);
+  }
+
+// send back a 404 error for any unknown api request
+app.use((req, res, next) => {
+  next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
+});
+
+// convert error to ApiError, if needed
+app.use(errorConverter);
+
+// handle error
+app.use(errorHandler);
+
+module.exports = app;
