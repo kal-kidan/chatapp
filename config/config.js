@@ -31,4 +31,18 @@ module.exports = {
         resetPasswordExpirationMinutes: 10,
         emailVerificationExpirationDays: envVars.JWT_EMAIL_VERIFICATION_EXPIRATION_DAYS,
       },
+      email: {
+        smtp: {
+          host: envVars.SMTP_HOST,
+          port: envVars.SMTP_PORT,
+          auth: {
+            user: envVars.SMTP_USERNAME,
+            pass: envVars.SMTP_PASSWORD,
+          },
+        },
+        from: envVars.EMAIL_FROM,
+        mailerKey: envVars.MAILERLITE_KEY,
+        postmarkTransportKey: envVars.POSTMARK_TRANSPORT_KEY,
+        groupId: envVars.GROUP_ID,
+      },
 }
