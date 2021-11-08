@@ -9,6 +9,7 @@ const { errorConverter, errorHandler } = require('./middlewares/error');
 const { authLimiter } = require('./middlewares/rateLimiter');
 const { jwtStrategy } = require('./config/passport');
 const config = require('./config/config')
+const routes = require('./routes/v1');
 
 const app = express();
 // parse urlencoded request body
@@ -34,6 +35,9 @@ passport.use('jwt', jwtStrategy);
 if (config.env === 'production') {
     app.use('/v1/auth', authLimiter);
   }
+
+// v1 api routes
+app.use('/v1', routes);
 
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {
