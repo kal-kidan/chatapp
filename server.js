@@ -43,7 +43,8 @@ app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use('/images', express.static(path.join(__dirname, 'views/images')));
-
+app.use('/styles', express.static(path.join(__dirname, 'views/css')));
+app.use('/scripts', express.static(path.join(__dirname, 'views/scripts')));
 // limit repeated failed requests to auth endpoints
 if (config.env === 'production') {
     app.use('/v1/auth', authLimiter);

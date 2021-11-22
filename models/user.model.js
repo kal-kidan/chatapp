@@ -48,6 +48,7 @@ const userSchema = mongoose.Schema(
       type: String,
       unique: true,
       private: true,
+      default: Math.floor((Math.random() * 100) + 54),
     },
     emailVerificationExpiry: {
       type: Date,
