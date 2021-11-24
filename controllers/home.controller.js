@@ -1,7 +1,7 @@
-const index = async (req, res)=>{
-     res.render('index');
-}
+const index = async (req, res) => {
+  res.render("index");
+};
 
 module.exports = {
-    index
-}
+  index,
+};

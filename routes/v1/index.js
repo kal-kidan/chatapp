@@ -1,31 +1,31 @@
-const express = require('express');
-const authRoute = require('./auth.route');
-const userRoute = require('./user.route');
-const docsRoute = require('./docs.route');
-const homeRoute = require('./home.route');
-const config = require('../../config/config');
+const express = require("express");
+const authRoute = require("./auth.route");
+const userRoute = require("./user.route");
+const docsRoute = require("./docs.route");
+const homeRoute = require("./home.route");
+const config = require("../../config/config");
 
 const router = express.Router();
 
 const defaultRoutes = [
   {
-    path: '/auth',
+    path: "/auth",
     route: authRoute,
   },
   {
-    path: '/users',
+    path: "/users",
     route: userRoute,
   },
   {
-    path: '/',
+    path: "/",
     route: homeRoute,
-  }
+  },
 ];
 
 const devRoutes = [
   // routes available only in development mode
   {
-    path: '/docs',
+    path: "/docs",
     route: docsRoute,
   },
 ];
@@ -35,7 +35,7 @@ defaultRoutes.forEach((route) => {
 });
 
 /* istanbul ignore next */
-if (config.env !== 'production') {
+if (config.env !== "production") {
   devRoutes.forEach((route) => {
     router.use(route.path, route.route);
   });
