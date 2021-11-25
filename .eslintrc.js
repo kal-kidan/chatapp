@@ -8,6 +8,11 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: "module",
   },
-  rules: {},
+  rules: {
+    "consistent-return": "off",
+    "no-underscore-dangle": "off",
+    "func-names": "off",
+    "max-len": "off",
+  },
   ignorePatterns: ["views", "node_modules"],
 };

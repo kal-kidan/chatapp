@@ -9,12 +9,14 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --check **/*.js",
-    "prettier:fix": "prettier --write **/*.js"
+    "prettier:fix": "prettier --write **/*.js",
+    "precommit": "lint-staged"
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "eslint . --fix", "git add"
-    ] 
+      "eslint . --fix",
+      "prettier --write **/*.js"
+    ]
   },
   "husky": {
     "hooks": {
@@ -49,6 +51,8 @@
     "passport": "^0.4.1",
     "passport-google-oauth2": "^0.2.0",
     "passport-jwt": "^4.0.0",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6",
     "validator": "^13.6.0",
     "winston": "^3.3.3",
     "xss-clean": "^0.1.1"
@@ -57,8 +61,6 @@
     "eslint": "^8.3.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.3",
-    "prettier": "^2.4.1",
-    "swagger-jsdoc": "^6.1.0",
-    "swagger-ui-express": "^4.1.6"
+    "prettier": "^2.4.1"
   }
 }
