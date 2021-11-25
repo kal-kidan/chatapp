@@ -11,6 +11,16 @@
     "prettier": "prettier --check **/*.js",
     "prettier:fix": "prettier --write **/*.js"
   },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint . --fix", "git add"
+    ] 
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "keywords": [],
   "author": "Kalkidan.T",
   "license": "ISC",
