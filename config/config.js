@@ -52,4 +52,9 @@ module.exports = {
     postmarkTransportKey: envVars.POSTMARK_TRANSPORT_KEY,
     groupId: envVars.GROUP_ID,
   },
+
+  google: {
+    clientID: envVars.CLIENT_ID,
+    clientSecret: envVars.CLIENT_SECRET,
+  },
 };

@@ -1,9 +1,21 @@
 const express = require("express");
+const passport = require("passport");
 const validate = require("../../middlewares/validate");
 const authValidation = require("../../validations/auth.validation");
 const authController = require("../../controllers/auth.controller");
 
 const router = express.Router();
+
+router.get("/google/redirect", (req, res) => {
+  res.send("redirected");
+});
+
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile"],
+  })
+);
 
 router.post(
   "/register",

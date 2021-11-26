@@ -10,6 +10,7 @@ const httpStatus = require("http-status");
 const { errorConverter, errorHandler } = require("./middlewares/error");
 const { authLimiter } = require("./middlewares/rateLimiter");
 const { jwtStrategy } = require("./config/passport");
+const { googleStrategy } = require("./config/passport");
 const config = require("./config/config");
 const routes = require("./routes/v1");
 const ApiError = require("./utils/ApiError");
@@ -32,9 +33,10 @@ app.use(helmet());
 app.use(cors());
 app.options("*", cors());
 
-// jwt authentication
+// jwt, google oauth authentication
 app.use(passport.initialize());
 passport.use("jwt", jwtStrategy);
+passport.use("google", googleStrategy);
 
 // template engine
 app.set("views", path.join(__dirname, "views"));
