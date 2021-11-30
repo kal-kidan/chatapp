@@ -25,7 +25,6 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
       trim: true,
       minlength: 8,
       validate(value) {
@@ -42,17 +41,11 @@ const userSchema = mongoose.Schema(
       enum: roles,
       default: "user",
     },
-    emailVerifiedAt: {
-      type: Date,
-      private: true,
-    },
-    emailVerificationCode: {
+    googleId: {
       type: String,
-      unique: true,
       private: true,
-      default: Math.floor(Math.random() * 100 + 54),
     },
-    emailVerificationExpiry: {
+    emailVerifiedAt: {
       type: Date,
       private: true,
     },

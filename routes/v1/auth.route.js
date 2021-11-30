@@ -6,14 +6,19 @@ const authController = require("../../controllers/auth.controller");
 
 const router = express.Router();
 
-router.get("/google/redirect", (req, res) => {
-  res.send("redirected");
-});
+// successRedirect: '/v1/google/redirect',
+// failureRedirect: '/v1',
+// failureFlash: true
+router.get(
+  "/google/redirect",
+  passport.authenticate("google"),
+  authController.googleRedirect
+);
 
 router.get(
   "/google",
   passport.authenticate("google", {
-    scope: ["profile"],
+    scope: ["profile", "email"],
   })
 );
 

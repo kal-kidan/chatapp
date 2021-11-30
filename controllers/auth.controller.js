@@ -7,6 +7,11 @@ const {
   emailService,
 } = require("../services");
 
+const googleRedirect = async (req, res) => {
+  const tokens = await tokenService.generateAuthTokens(req.user);
+  res.status(httpStatus.CREATED).json({ user: req.user, tokens });
+};
+
 const register = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
   const tokens = await tokenService.generateAuthTokens(user);
@@ -50,4 +55,5 @@ module.exports = {
   refreshTokens,
   forgotPassword,
   resetPassword,
+  googleRedirect,
 };
