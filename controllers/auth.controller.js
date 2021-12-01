@@ -9,7 +9,13 @@ const {
 
 const googleRedirect = async (req, res) => {
   const tokens = await tokenService.generateAuthTokens(req.user);
-  res.status(httpStatus.CREATED).json({ user: req.user, tokens });
+  res.cookie(
+    "userData",
+    { user: req.user, tokens },
+    { maxAge: 900000, httpOnly: true }
+  );
+  res.redirect("/v1/home");
+  // res.status(httpStatus.CREATED).json({ user: req.user, tokens });
 };
 
 const register = catchAsync(async (req, res) => {

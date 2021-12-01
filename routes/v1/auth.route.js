@@ -11,7 +11,11 @@ const router = express.Router();
 // failureFlash: true
 router.get(
   "/google/redirect",
-  passport.authenticate("google"),
+  passport.authenticate("google", {
+    // successRedirect: '/v1/home',
+    failureRedirect: "/v1",
+    failureFlash: true,
+  }),
   authController.googleRedirect
 );
 

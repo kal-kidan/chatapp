@@ -50,19 +50,6 @@ const logIn = async () => {
   }
 };
 
-const googleLogin = async () => {
-  console.log("called");
-  const response = await fetch("/v1/auth/google", {
-    method: "GET",
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-      "Content-Security-Policy":
-        "connect-src 'self' https://accounts.google.com",
-      "Access-Control-Allow-Origin": "https://accounts.google.com",
-    },
-  });
-  console.log(response);
-};
 const setTagValue = (tagId, message) => {
   document.getElementById(tagId).innerHTML = message;
 };

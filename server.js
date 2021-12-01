@@ -7,6 +7,7 @@ const compression = require("compression");
 const cors = require("cors");
 const passport = require("passport");
 const httpStatus = require("http-status");
+const cookieSession = require("cookie-session");
 const { errorConverter, errorHandler } = require("./middlewares/error");
 const { authLimiter } = require("./middlewares/rateLimiter");
 const { jwtStrategy } = require("./config/passport");
@@ -34,7 +35,15 @@ app.use(cors());
 app.options("*", cors());
 
 // jwt, google oauth authentication
+app.use(
+  cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: ["secret"],
+  })
+);
 app.use(passport.initialize());
+app.use(passport.session());
+
 passport.use("jwt", jwtStrategy);
 passport.use("google", googleStrategy);
 
