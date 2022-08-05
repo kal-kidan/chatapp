@@ -1,3 +1,4 @@
+// file generated when running npm init @eslint/config
 module.exports = {
   env: {
     browser: true,
@@ -14,5 +15,5 @@ module.exports = {
     "func-names": "off",
     "max-len": "off",
   },
-  ignorePatterns: ["views", "node_modules"],
+  ignorePatterns: ["**/views", "node_modules", "**/src", "tests"],
 };

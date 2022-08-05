@@ -1,18 +1,16 @@
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
+  <head> 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <title>Chat App</title> 
-    <link rel="stylesheet" href="./styles/style.css"> </link>
-    <script src="./scripts/index.js"> </script> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+    <!-- <link rel="stylesheet" href="./css/bootstrap.min.css"> -->
+    <title>Chat App</title>  
   </head>
   <body> 
     <div class="login-wrap">
-      <div class="login-html">
+      <div class="login-html"> 
+          <div class="alert alert-danger" role="alert" *ngIf="false">
+            <!-- {{error}} -->
+          </div> 
         <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
         <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
         <div class="login-form">
@@ -31,7 +29,7 @@
               <label for="check"><span class="icon"></span> Keep me Signed in</label>
             </div>
             <div class="group">
-              <input type="button" class="button" value="Sign In" onclick="logIn()"> <br>
+              <input type="button" id="login-btn" class="button" value="Sign In"> <br>
               <a href="/v1/auth/google"><input class="google-btn" type="button" value="Sign In With Google"></a>    
             </div>
             <div class="hr"></div>
@@ -58,16 +56,17 @@
               <input id="email" name="email" type="email" class="input" required>
             </div>
             <div class="group">
-              <input class="button" type="button" value="Sign Up" onclick="register()"> <br>
+              <input id="register-btn" class="button" type="button" value="Sign Up"> <br>
               <a href="/v1/auth/google"><input class="google-btn" type="button" value="Sign Up With Google"></a>
             </div>
             <div class="hr"></div>
             <div class="foot-lnk">
-              <label for="tab-1">Already Member?</a>
+              <label for="tab-1">Already Member?</label>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <script src="./scripts/index.js"> </script> 
   </body>
 </html>

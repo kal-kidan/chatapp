@@ -8,6 +8,7 @@ const cors = require("cors");
 const passport = require("passport");
 const httpStatus = require("http-status");
 const cookieSession = require("cookie-session");
+const cookieParser = require('cookie-parser');
 const { errorConverter, errorHandler } = require("./middlewares/error");
 const { authLimiter } = require("./middlewares/rateLimiter");
 const { jwtStrategy } = require("./config/passport");
@@ -20,6 +21,7 @@ const app = express();
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 // sanitize request data
 app.use(xss());
@@ -64,9 +66,11 @@ app.use(
   "/js",
   express.static(path.join(__dirname, "node_modules/jquery/dist"))
 );
-app.use("/images", express.static(path.join(__dirname, "views/images")));
-app.use("/styles", express.static(path.join(__dirname, "views/css")));
-app.use("/scripts", express.static(path.join(__dirname, "views/scripts")));
+app.use("/views", express.static(path.join(__dirname, "/views")));
+app.use("/images", express.static(path.join(__dirname, "/views/images")));
+app.use("/styles", express.static(path.join(__dirname, "/views/css")));
+app.use("/scripts", express.static(path.join(__dirname, "/views/scripts")));
+
 // limit repeated failed requests to auth endpoints
 if (config.env === "production") {
   app.use("/v1/auth", authLimiter);

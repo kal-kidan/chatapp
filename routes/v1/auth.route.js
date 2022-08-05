@@ -4,18 +4,11 @@ const validate = require("../../middlewares/validate");
 const authValidation = require("../../validations/auth.validation");
 const authController = require("../../controllers/auth.controller");
 
-const router = express.Router();
+const router = express.Router();  
+require('https').globalAgent.options.rejectUnauthorized = false;
 
-// successRedirect: '/v1/google/redirect',
-// failureRedirect: '/v1',
-// failureFlash: true
 router.get(
   "/google/redirect",
-  passport.authenticate("google", {
-    // successRedirect: '/v1/home',
-    failureRedirect: "/v1",
-    failureFlash: true,
-  }),
   authController.googleRedirect
 );
 
@@ -23,7 +16,8 @@ router.get(
   "/google",
   passport.authenticate("google", {
     scope: ["profile", "email"],
-  })
+  }),
+  authController.googleLogIn
 );
 
 router.post(
