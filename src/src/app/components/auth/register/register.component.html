@@ -16,47 +16,49 @@
         <div class="login-form">
           <div class="sign-in-htm">
             <p class="error" id="login-error"> </p> 
-            <div class="group">
-              <label for="username" class="label">Username</label>
-              <input id="username" type="email" class="input" required>
-            </div>
-            <div class="group">
-              <label for="password" class="label">Password</label>
-              <input id="password" type="password" class="input" data-type="password" required>
-            </div>
-            <div class="group">
-              <input id="check" type="checkbox" class="check" checked>
-              <label for="check"><span class="icon"></span> Keep me Signed in</label>
-            </div>
-            <div class="group">
-              <input type="button" id="login-btn" class="button" value="Sign In"> <br>
-              <a href="/v1/auth/google"><input class="google-btn" type="button" value="Sign In With Google"></a>    
+            <div [formGroup]="logInForm">
+              <div class="group">
+                <label for="username" class="label">Username</label>
+                <input id="username" type="email" class="input" formControlName="username" required>
+              </div>
+              <div class="group">
+                <label for="password" class="label">Password</label>
+                <input id="password" type="password" class="input" data-type="password" formControlName="password" required>
+              </div>
+              <div class="group">
+                <input id="check" type="checkbox" class="check" checked>
+                <label for="check"><span class="icon"></span> Keep me Signed in</label>
+              </div>
+              <div class="group">
+                <input type="button" id="login-btn" class="button" value="Sign In" (click)="logIn()"> <br>
+                <a href="/v1/auth/google"><input class="google-btn" type="button" value="Sign In With Google"></a>    
+              </div>
             </div>
             <div class="hr"></div>
             <div class="foot-lnk">
               <a href="#forgot">Forgot Password?</a>
             </div>
           </div>
-          <div class="sign-up-htm" id="registerForm" > 
-              <p class="error" id="register-error"> </p> 
+          <div class="sign-up-htm" id="registerForm" [formGroup]="registerForm"> 
+              <p class="error" id="register-error"> </p>  
             <div class="group">
-              <label for="user" class="label">Username</label>
-              <input id="user" name="name" type="text" class="input" required>
+              <label for="email" class="label">Email Address</label>
+              <input id="email" name="email" type="email" class="input" formControlName="email" required>
+            </div>
+            <div class="group">
+              <label for="name" class="label">Name</label>
+              <input id="name" name="text" type="text" class="input" formControlName="name" required>
             </div>
             <div class="group">
               <label for="pass" class="label">Password</label>
-              <input id="pass" name="password" type="password" class="input" data-type="password" required>
+              <input id="pass" name="password" type="password" class="input" data-type="password" formControlName="password" required>
             </div>
             <div class="group">
               <label for="confirmpass" class="label">Repeat Password</label>
-              <input id="confirmpass" type="password" class="input" data-type="password" required>
+              <input id="confirmpass" type="password" class="input" data-type="password" formControlName="confirmPassword" required>
             </div>
             <div class="group">
-              <label for="email" class="label">Email Address</label>
-              <input id="email" name="email" type="email" class="input" required>
-            </div>
-            <div class="group">
-              <input id="register-btn" class="button" type="button" value="Sign Up"> <br>
+              <input id="register-btn" class="button" type="button" value="Sign Up" (click)="register()"> <br>
               <a href="/v1/auth/google"><input class="google-btn" type="button" value="Sign Up With Google"></a>
             </div>
             <div class="hr"></div>
