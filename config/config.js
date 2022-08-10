@@ -39,23 +39,11 @@ module.exports = {
     emailVerificationExpirationDays:
       envVars.JWT_EMAIL_VERIFICATION_EXPIRATION_DAYS,
   },
-  email: {
-    smtp: {
-      host: envVars.SMTP_HOST,
-      port: envVars.SMTP_PORT,
-      auth: {
-        user: envVars.SMTP_USERNAME,
-        pass: envVars.SMTP_PASSWORD,
-      },
-    },
-    from: envVars.EMAIL_FROM,
-    mailerKey: envVars.MAILERLITE_KEY,
-    postmarkTransportKey: envVars.POSTMARK_TRANSPORT_KEY,
-    groupId: envVars.GROUP_ID,
-  },
-
   google: {
     clientID: envVars.CLIENT_ID,
     clientSecret: envVars.CLIENT_SECRET,
+  },
+  encryption: {
+    encryptionKey: envVars.ENCRYPTION_KEY,
   },
 };

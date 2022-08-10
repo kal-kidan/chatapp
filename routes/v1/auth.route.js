@@ -1,24 +1,10 @@
 const express = require("express");
-const passport = require("passport");
 const validate = require("../../middlewares/validate");
 const authValidation = require("../../validations/auth.validation");
 const authController = require("../../controllers/auth.controller");
 
-const router = express.Router();  
-require('https').globalAgent.options.rejectUnauthorized = false;
-
-router.get(
-  "/google/redirect",
-  authController.googleRedirect
-);
-
-router.get(
-  "/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  }),
-  authController.googleLogIn
-);
+const router = express.Router();
+require("https").globalAgent.options.rejectUnauthorized = false;
 
 router.post(
   "/register",

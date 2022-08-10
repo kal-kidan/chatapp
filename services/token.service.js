@@ -14,7 +14,7 @@ const generateToken = (userId, expires, type, secret = config.jwt.secret) => {
     exp: expires.unix(),
     type,
   };
-  return jwt.sign(payload, secret);
+  return jwt.sign(payload, secret, { issuer: "chatapp" });
 };
 
 const saveToken = async (token, userId, expires, type, blacklisted = false) => {

@@ -34,7 +34,7 @@ const userSchema = mongoose.Schema(
           );
         }
       },
-      private: true, // used by the toJSON plugin
+      private: true,
     },
     role: {
       type: String,
@@ -58,7 +58,6 @@ const userSchema = mongoose.Schema(
   }
 );
 
-// add plugin that converts mongoose to json
 userSchema.plugin(toJSON);
 
 userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
@@ -79,9 +78,6 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-/**
- * @typedef User
- */
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

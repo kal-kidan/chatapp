@@ -12,11 +12,6 @@ router
     auth("getUsers"),
     validate(userValidation.getUser),
     userController.getUser
-  )
-  .patch(
-    auth("updateUsers"),
-    validate(userValidation.updateUser),
-    userController.updateUser
   );
 
 module.exports = router;

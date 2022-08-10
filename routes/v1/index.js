@@ -3,6 +3,7 @@ const authRoute = require("./auth.route");
 const userRoute = require("./user.route");
 const docsRoute = require("./docs.route");
 const homeRoute = require("./home.route");
+const chatRoute = require("./chat.route");
 const config = require("../../config/config");
 
 const router = express.Router();
@@ -20,6 +21,10 @@ const defaultRoutes = [
     path: "/",
     route: homeRoute,
   },
+  {
+    path: "/chat",
+    route: chatRoute,
+  },
 ];
 
 const devRoutes = [
@@ -34,7 +39,6 @@ defaultRoutes.forEach((route) => {
   router.use(route.path, route.route);
 });
 
-/* istanbul ignore next */
 if (config.env !== "production") {
   devRoutes.forEach((route) => {
     router.use(route.path, route.route);
