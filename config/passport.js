@@ -32,8 +32,8 @@ const googleVerify = async (accessToken, refreshToken, profile, done) => {
       });
     }
     done(null, user);
-  } catch (error) { 
-     done(error, false);
+  } catch (error) {
+    done(error, false);
   }
 };
 
