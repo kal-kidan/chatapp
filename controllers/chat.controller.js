@@ -12,7 +12,18 @@ const getRecievers = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(recievers);
 });
 
+const getMessages = catchAsync(async (req, res) => {
+  const messages = await chatService.getMessages(
+    req.query.roomId,
+    req.user.id,
+    req.query.page,
+    req.query.limit
+  );
+  res.status(httpStatus.OK).send(messages);
+});
+
 module.exports = {
   createMessage,
   getRecievers,
+  getMessages,
 };

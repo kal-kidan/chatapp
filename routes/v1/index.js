@@ -5,6 +5,7 @@ const docsRoute = require("./docs.route");
 const homeRoute = require("./home.route");
 const chatRoute = require("./chat.route");
 const config = require("../../config/config");
+const auth = require("../../middlewares/auth");
 
 const router = express.Router();
 
@@ -36,6 +37,9 @@ const devRoutes = [
 ];
 
 defaultRoutes.forEach((route) => {
+  if (route !== "/docs" && route !== "/auth") {
+    router.use(auth());
+  }
   router.use(route.path, route.route);
 });
 

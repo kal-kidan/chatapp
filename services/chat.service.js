@@ -47,18 +47,16 @@ const getRecievers = async (body) => {
   return users;
 };
 
-const getMessages = async (userId) => {
-  const messages = Chat.find({
-    $or: [{ sendeId: userId }, { receiverId: userId }],
-  }).aggregate([
+const getMessages = async (roomId, userId, page, limit) => {
+  const messages = Chat.paginate(
     {
-      $group: {
-        _id: "$roomId",
-        sendeId: "$sendeId",
-        receiverId: "$recieverId",
-      },
+      $and: [
+        { roomId },
+        { $or: [{ senderId: userId }, { recieverId: userId }] },
+      ],
     },
-  ]);
+    { page, limit }
+  );
   return messages;
 };
 

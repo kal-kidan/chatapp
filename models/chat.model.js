@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 const { toJSON } = require("./plugins");
 const { encrypt } = require("../utils/crypto");
 
@@ -30,6 +31,7 @@ const chatSchema = mongoose.Schema(
 );
 
 chatSchema.plugin(toJSON);
+chatSchema.plugin(mongoosePaginate);
 
 chatSchema.pre("save", async function (next) {
   const user = this;

@@ -16,9 +16,10 @@ const getRecievers = {
 };
 
 const getMessages = {
-  body: Joi.object().keys({
-    senderId: Joi.string().custom(objectId),
-    recieverId: Joi.string().custom(objectId),
+  query: Joi.object().keys({
+    roomId: Joi.string().custom(objectId),
+    page: Joi.number().integer().required(),
+    limit: Joi.number().integer().required(),
   }),
 };
 
