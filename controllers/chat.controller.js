@@ -7,6 +7,12 @@ const createMessage = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(message);
 });
 
+const getRecievers = catchAsync(async (req, res) => {
+  const recievers = await chatService.getRecievers(req.body);
+  res.status(httpStatus.OK).send(recievers);
+});
+
 module.exports = {
   createMessage,
+  getRecievers,
 };

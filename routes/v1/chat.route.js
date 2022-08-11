@@ -14,4 +14,11 @@ router
     chatController.createMessage
   );
 
+router.post(
+  "/recievers",
+  auth(),
+  validate(chatValidation.getRecievers),
+  chatController.getRecievers
+);
+
 module.exports = router;

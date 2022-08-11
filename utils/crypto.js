@@ -10,12 +10,12 @@ const encrypt = (message) => {
   return cipher.update(message, "utf8", "hex") + cipher.final("hex");
 };
 
-const decrypt = (encryptedText) => {
+const decrypt = (message) => {
   const algorithm = "aes256";
   const decipher = crypto.createDecipher(
     algorithm,
     config.encryption.encryptionKey
   );
-  return decipher.update(encryptedText, "hex", "utf8") + decipher.final("utf8");
+  return decipher.update(message, "hex", "utf8") + decipher.final("utf8");
 };
 module.exports = { encrypt, decrypt };

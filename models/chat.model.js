@@ -5,7 +5,7 @@ const { encrypt } = require("../utils/crypto");
 const chatSchema = mongoose.Schema(
   {
     roomId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
     senderId: {
@@ -21,6 +21,7 @@ const chatSchema = mongoose.Schema(
     message: {
       type: String,
       required: true,
+      decrypt: true,
     },
   },
   {

@@ -1,10 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-/**
- * A mongoose schema plugin which applies the following in the toJSON transform call:
- *  - removes __v, createdAt, updatedAt, and any path that has private: true
- *  - replaces _id with id
- */
+const { decrypt } = require("../../utils/crypto");
 
 const deleteAtPath = (obj, path, index) => {
   if (index === path.length - 1) {
@@ -26,13 +22,13 @@ const toJSON = (schema) => {
         if (schema.paths[path].options && schema.paths[path].options.private) {
           deleteAtPath(ret, path.split("."), 0);
         }
+        if (schema.paths[path].options && schema.paths[path].options.decrypt) {
+          ret[path] = decrypt(ret[path]);
+        }
       });
-
       ret.id = ret._id.toString();
       delete ret._id;
       delete ret.__v;
-      delete ret.createdAt;
-      delete ret.updatedAt;
       if (transform) {
         return transform(doc, ret, options);
       }

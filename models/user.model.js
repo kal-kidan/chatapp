@@ -40,6 +40,7 @@ const userSchema = mongoose.Schema(
       type: String,
       enum: roles,
       default: "user",
+      private: true,
     },
     googleId: {
       type: String,

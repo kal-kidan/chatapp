@@ -11,7 +11,7 @@ const createMessage = {
 
 const getRecievers = {
   body: Joi.object().keys({
-    senderId: Joi.required().custom(objectId),
+    userId: Joi.required().custom(objectId),
   }),
 };
 
