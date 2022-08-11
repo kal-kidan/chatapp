@@ -13,4 +13,7 @@ export class RequestService {
   register(data: any) {
     return this._http.post(`${this.rootUrl}/auth/register`, {name: data.name, email: data.email, password: data.password});
   }
+  getReceivers(userId: string){
+    return this._http.post(`${this.rootUrl}/chat/recievers`, {userId});
+  }
 }
