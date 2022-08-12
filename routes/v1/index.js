@@ -37,7 +37,7 @@ const devRoutes = [
 ];
 
 defaultRoutes.forEach((route) => {
-  if (route !== "/docs" && route !== "/auth") {
+  if (route.path !== "/docs" && route.path !== "/auth") {
     router.use(auth());
   }
   router.use(route.path, route.route);

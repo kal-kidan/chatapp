@@ -16,4 +16,9 @@ export class RequestService {
   getReceivers(userId: string){
     return this._http.post(`${this.rootUrl}/chat/recievers`, {userId});
   }
+  getMessages(roomId: string, page: number, limit: number){
+    return this._http.get(`${this.rootUrl}/chat/messages`, {params: {
+      roomId, page, limit
+    }});
+  }
 }
