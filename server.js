@@ -5,7 +5,6 @@ const mongoSanitize = require("express-mongo-sanitize");
 const compression = require("compression");
 const cors = require("cors");
 const passport = require("passport");
-const httpStatus = require("http-status");
 const cookieParser = require("cookie-parser");
 const { errorConverter, errorHandler } = require("./middlewares/error");
 const { authLimiter } = require("./middlewares/rateLimiter");
@@ -13,6 +12,7 @@ const { jwtStrategy } = require("./config/passport");
 const config = require("./config/config");
 const routes = require("./routes/v1");
 const ApiError = require("./utils/ApiError");
+const httpStatus = require("http-status");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -36,7 +36,7 @@ if (config.env === "production") {
 }
 
 app.use("/v1", routes);
-
+/* eslint-disable no-unused-vars */
 app.use((req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, "Not found"));
 });

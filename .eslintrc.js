@@ -14,6 +14,7 @@ module.exports = {
     "no-underscore-dangle": "off",
     "func-names": "off",
     "max-len": "off",
+    "import/order": "off",
   },
   ignorePatterns: ["**/views", "node_modules", "**/src", "tests"],
 };

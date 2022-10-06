@@ -21,4 +21,8 @@ export class RequestService {
       roomId, page, limit
     }});
   }
+
+  searchUser(email: string){
+    return this._http.get(`${this.rootUrl}/users/${email}`);
+  }
 }

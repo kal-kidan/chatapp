@@ -12,7 +12,11 @@ const createUser = async (userBody) => {
 
 const getUserById = async (id) => User.findById(id);
 
-const getUserByEmail = async (email) => User.findOne({ email });
+const getUserByEmail = async (email) => {
+  const user = await User.findOne({ email });
+  if (!user) throw new ApiError(httpStatus.NOT_FOUND, "User not found.");
+  return user;
+};
 
 module.exports = {
   createUser,

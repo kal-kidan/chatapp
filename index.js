@@ -1,13 +1,25 @@
 const mongoose = require("mongoose");
+const http = require("http");
 const app = require("./server");
 const config = require("./config/config");
 const logger = require("./config/logger");
 
-let server;
+const httpServer = http.createServer(app);
+
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
   logger.info("Connected to MongoDB");
-  server = app.listen(config.port, () => {
-    logger.info(`Server listening to port ${config.port}`);
+});
+
+const server = httpServer.listen(config.port, () => {
+  logger.info(`Server listening to port ${config.port}`);
+});
+
+const io = require("socket.io")(httpServer, { cors: { origin: "*" } });
+
+io.on("connection", (socket) => {
+  console.log("A user connected");
+  socket.on("disconnect", () => {
+    console.log("A user disconnected");
   });
 });
 

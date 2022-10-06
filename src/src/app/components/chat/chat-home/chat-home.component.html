@@ -14,14 +14,30 @@
 					<div class="card mb-sm-3 mb-md-0 contacts_card">
 					<div class="card-header">
 						<div class="input-group">
-							<input type="text" placeholder="Search..." name="" class="form-control search">
-							<div class="input-group-prepend">
+							<input type="email" placeholder="Search..." value="" [formControl]="email" class="form-control search">
+							<div class="input-group-prepend" style="cursor: pointer;" (click)="searchUser()">
 								<span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
 							</div>
 						</div>
 					</div>
 					<!-- recievers -->
 					<div class="card-body contacts_body">
+						<!-- search results -->
+						<u class="contacts"  style="cursor: pointer; text-decoration: none" *ngIf="user.name"  (click)="openMessages({user})" >
+							<li class="active">
+								<div class="d-flex bd-highlight">
+									<div class="img_cont">
+										<img src="/assets/files/images/user.png" class="rounded-circle user_img">
+										<span class="online_icon"></span>
+									</div> 
+									<div class="user_info">
+										<span>{{user.name}}</span>
+										<p *ngIf="user.message" style="font-size: 12px;">{{user.message.slice(0, 12)}}</p>
+										<p *ngIf="user.message && user.message.length>12"> ...</p>
+									</div>
+								</div>
+							</li>  
+						</u>
 						<u class="contacts" *ngFor="let reciever of recievers " style="cursor: pointer; text-decoration: none" (click)="openMessages(reciever)">
 						<li class="active">
 							<div class="d-flex bd-highlight">
@@ -37,7 +53,8 @@
 							</div>
 						</li>  
 						</u>
-					</div>
+					</div> 
+
 					<div class="card-footer"></div>
 				</div></div>
 				<div class="col-md-8 col-xl-6 chat">
@@ -54,6 +71,9 @@
 							</div>
 							<span id="action_menu_btn"><i class="fas fa-video"></i></span>
 							<!-- <span><i class="fas fa-phone"></i></span>  -->
+						</div>
+						<div *ngIf="!messages || messages.length==0" style="text-align: center; color: #FFFFF7; margin-top: 10%;">
+							No message here yet. 
 						</div>
 						<div class="msg_card_body" *ngFor="let content of messages">
 							<div class="d-flex justify-content-start" *ngIf="content.senderId==id">
@@ -75,13 +95,13 @@
 								</div>
 							</div> 	
 						</div>
-						<div class="card-footer">
+						<div class="card-footer" *ngIf="selectedUser">
 							<div class="input-group">
 								<div class="input-group-append">
 									<span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
 								</div>
-								<textarea name="" class="form-control type_msg" placeholder="Type your message..."></textarea>
-								<div class="input-group-append">
+								<textarea name="" [formControl]="messageContent" class="form-control type_msg" placeholder="Type your message..."></textarea>
+								<div class="input-group-append" style="cursor: pointer" (click)="sendMessage()">
 									<span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
 								</div>
 							</div>

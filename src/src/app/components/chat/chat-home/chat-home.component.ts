@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserProfileService } from 'src/app/services/auth/user-profile.service';
 import { RequestService } from 'src/app/services/request.service';
 import * as moment from 'moment';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-chat-home',
   templateUrl: './chat-home.component.html',
@@ -13,6 +14,10 @@ export class ChatHomeComponent implements OnInit {
   userName: string='';
   id: any;
   moment = moment;
+  email = new FormControl('');
+  messageContent = new FormControl('');
+  user: any = {};
+  selectedUser: string = '';
   constructor(private requestService: RequestService, private profileService: UserProfileService) {
     this.id= profileService.get().id;
     requestService.getReceivers(this.id!).subscribe((data: any)=>{
@@ -22,10 +27,29 @@ export class ChatHomeComponent implements OnInit {
   ngOnInit(): void { 
   }
   openMessages(reciever: any){
-    this.userName = reciever.user.name;
-    this.requestService.getMessages(reciever._id, 1, 10).subscribe((data: any)=>{
-      this.messages = data.docs;
-    })
+    this.selectedUser = reciever.user.id;
+    if(reciever.user && reciever.user.name){
+      this.userName = reciever.user.name;
+    }
+    if(reciever._id){
+      this.requestService.getMessages(reciever._id, 1, 10).subscribe((data: any)=>{
+        this.messages = data.docs;
+      })
+    }
+    else{
+      this.messages = []; 
+    }
+  }
+
+  searchUser(){
+    this.requestService.searchUser(this.email.value).subscribe((data)=>{ 
+      this.user = data;
+    });
+  }
+
+  sendMessage(){
+    console.log(this.selectedUser, this.messageContent.value);
+    
   }
 
 }

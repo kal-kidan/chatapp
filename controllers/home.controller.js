@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 const index = async (req, res) => {
-  res.render("index");
+  console.log("index");
 };
 
+/* eslint-disable no-unused-vars */
 const home = async (req, res) => {
-  res.render("home");
+  console.log("home");
 };
 
 module.exports = {

@@ -17,8 +17,8 @@ const getUser = catchAsync(async (req, res) => {
 });
 
 const searchUser = catchAsync(async (req, res) => {
-  const user = await userService.getUserByEmail(req.body.params.email);
-  res.send(user);
+  const user = await userService.getUserByEmail(req.params.email);
+  res.send({ id: user.id, email: user.email, name: user.name });
 });
 
 module.exports = {
