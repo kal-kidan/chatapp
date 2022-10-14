@@ -3,6 +3,7 @@ const http = require("http");
 const app = require("./server");
 const config = require("./config/config");
 const logger = require("./config/logger");
+const socketConnect = require("./socket");
 
 const httpServer = http.createServer(app);
 
@@ -16,12 +17,7 @@ const server = httpServer.listen(config.port, () => {
 
 const io = require("socket.io")(httpServer, { cors: { origin: "*" } });
 
-io.on("connection", (socket) => {
-  console.log("A user connected");
-  socket.on("disconnect", () => {
-    console.log("A user disconnected");
-  });
-});
+io.on("connection", socketConnect);
 
 const unexpectedErrorHandler = (error) => {
   logger.error(error);

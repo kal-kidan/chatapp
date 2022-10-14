@@ -5,7 +5,7 @@ import { TokenService } from 'src/app/services/auth/token.service';
 import { UserProfileService } from 'src/app/services/auth/user-profile.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RequestService } from 'src/app/services/request.service';
-
+import { SocketService } from './../../../services/socket.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',

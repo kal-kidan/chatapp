@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TokenService } from './services/auth/token.service';
 import { SocketService } from './services/socket.service';
 @Component({
   selector: 'app-root',
@@ -7,12 +8,13 @@ import { SocketService } from './services/socket.service';
 })
 export class AppComponent {
   title = 'Chat app';
-  constructor(private socket: SocketService){
+  constructor(private socket: SocketService, private token: TokenService){
 
   }
-  ngOnInit() {
-    this.socket.connect();
-    
+  ngOnInit() { 
+    if(this.token.loggedIn()){
+      this.socket.connect();
+    }
   }
 
 }

@@ -3,6 +3,7 @@ import { UserProfileService } from 'src/app/services/auth/user-profile.service';
 import { RequestService } from 'src/app/services/request.service';
 import * as moment from 'moment';
 import { FormControl } from '@angular/forms';
+import { SocketService } from '../../../services/socket.service'
 @Component({
   selector: 'app-chat-home',
   templateUrl: './chat-home.component.html',
@@ -18,7 +19,7 @@ export class ChatHomeComponent implements OnInit {
   messageContent = new FormControl('');
   user: any = {};
   selectedUser: string = '';
-  constructor(private requestService: RequestService, private profileService: UserProfileService) {
+  constructor(private requestService: RequestService, private profileService: UserProfileService, private socket: SocketService, private userProfile: UserProfileService) {
     this.id= profileService.get().id;
     requestService.getReceivers(this.id!).subscribe((data: any)=>{
       this.recievers = data;
@@ -48,7 +49,8 @@ export class ChatHomeComponent implements OnInit {
   }
 
   sendMessage(){
-    console.log(this.selectedUser, this.messageContent.value);
+    const data = {senderId: this.userProfile.get().id, recieverId: this.selectedUser, message: this.messageContent.value};
+    this.socket.sendMessage(data); 
     
   }
 

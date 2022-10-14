@@ -12,17 +12,15 @@ export class SocketService {
   public message$: BehaviorSubject<string> = new BehaviorSubject('');
   connect(){
     this.socket = io("localhost:3000");
+    this.socket.on('message', this.getNewMessage);
   }
 
-  public sendMessage(message: any) {
-    this.socket.emit('message', message);
+  public sendMessage(data: any) {
+    this.socket.emit('send', data);
   }
 
-  public getNewMessage = () => {
-    this.socket.on('message', (message: any) =>{
-      this.message$.next(message);
-    });
+  public getNewMessage = (message: any) =>{
+    console.log("message", message);
+  }
     
-    return this.message$.asObservable();
-  };
 }
