@@ -1,29 +1,29 @@
-const express = require("express");
-const authRoute = require("./auth.route");
-const userRoute = require("./user.route");
-const docsRoute = require("./docs.route");
-const homeRoute = require("./home.route");
-const chatRoute = require("./chat.route");
-const config = require("../../config/config");
-const auth = require("../../middlewares/auth");
+const express = require('express');
+const authRoute = require('./auth.route');
+const userRoute = require('./user.route');
+const docsRoute = require('./docs.route');
+const homeRoute = require('./home.route');
+const chatRoute = require('./chat.route');
+const config = require('../../config/config');
+const auth = require('../../middlewares/auth');
 
 const router = express.Router();
 
 const defaultRoutes = [
   {
-    path: "/auth",
+    path: '/auth',
     route: authRoute,
   },
   {
-    path: "/users",
+    path: '/users',
     route: userRoute,
   },
   {
-    path: "/",
+    path: '/',
     route: homeRoute,
   },
   {
-    path: "/chat",
+    path: '/chat',
     route: chatRoute,
   },
 ];
@@ -31,19 +31,19 @@ const defaultRoutes = [
 const devRoutes = [
   // routes available only in development mode
   {
-    path: "/docs",
+    path: '/docs',
     route: docsRoute,
   },
 ];
 
 defaultRoutes.forEach((route) => {
-  if (route.path !== "/docs" && route.path !== "/auth") {
+  if (route.path !== '/docs' && route.path !== '/auth') {
     router.use(auth());
   }
   router.use(route.path, route.route);
 });
 
-if (config.env !== "production") {
+if (config.env !== 'production') {
   devRoutes.forEach((route) => {
     router.use(route.path, route.route);
   });

@@ -1,8 +1,8 @@
-const request = require("supertest");
-const mongoose = require("mongoose");
-const config = require("./../config/config");
-const app = require("./../server");
-describe("USER", () => {
+const request = require('supertest');
+const mongoose = require('mongoose');
+const config = require('./../config/config');
+const app = require('./../server');
+describe('USER', () => {
   beforeEach((done) => {
     mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
       done();
@@ -14,10 +14,10 @@ describe("USER", () => {
   });
   it("shouldn't sign in user", async () => {
     await request(app)
-      .post("/v1/auth/login")
+      .post('/v1/auth/login')
       .send({
-        email: "kal@gmail.com",
-        password: "pw",
+        email: 'kal@gmail.com',
+        password: 'pw',
       })
       .expect(401)
       .then((res) => {})
@@ -25,26 +25,26 @@ describe("USER", () => {
         expect(err).toEqual(
           expect.objectContaining({
             code: 401,
-            message: "Incorrect email or password",
+            message: 'Incorrect email or password',
           })
         );
       });
   });
 
-  it("should sign in user", async () => {
+  it('should sign in user', async () => {
     await request(app)
-      .post("/v1/auth/login")
+      .post('/v1/auth/login')
       .send({
-        email: "test@gmail.com",
-        password: "password123",
+        email: 'test@gmail.com',
+        password: 'password123',
       })
-      .expect("Content-Type", "html")
+      .expect('Content-Type', 'html')
       .expect(200)
       .then((res) => {
         expect(res.h).toStrictEqual({
-          role: "user",
-          email: "test@gmail.com",
-          name: "test user",
+          role: 'user',
+          email: 'test@gmail.com',
+          name: 'test user',
         });
       })
       .catch((err) => {});

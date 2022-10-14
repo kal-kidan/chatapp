@@ -1,16 +1,16 @@
-const mongoose = require("mongoose");
-const { toJSON } = require("./plugins");
+const mongoose = require('mongoose');
+const { toJSON } = require('./plugins');
 
 const roomSchema = mongoose.Schema(
   {
     userId1: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     userId2: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
   },
@@ -21,6 +21,6 @@ const roomSchema = mongoose.Schema(
 
 roomSchema.plugin(toJSON);
 
-const Room = mongoose.model("Room", roomSchema);
+const Room = mongoose.model('Room', roomSchema);
 
 module.exports = Room;

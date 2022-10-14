@@ -1,15 +1,15 @@
-const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
-const { Strategy: GoogleStrategy } = require("passport-google-oauth20");
-const passport = require("passport");
-const config = require("./config");
-const { tokenTypes } = require("./tokens");
-const { User } = require("../models");
+const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
+const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
+const passport = require('passport');
+const config = require('./config');
+const { tokenTypes } = require('./tokens');
+const { User } = require('../models');
 
 const googleOptions = {
   clientID: config.google.clientID,
   clientSecret: config.google.clientSecret,
   callbackURL: `${config.appUrl}/v1/auth/google/redirect`,
-  userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
+  userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
 };
 
 passport.serializeUser((user, done) => {
@@ -47,7 +47,7 @@ const jwtOptions = {
 const jwtVerify = async (payload, done) => {
   try {
     if (payload.type !== tokenTypes.ACCESS) {
-      throw new Error("Invalid token type");
+      throw new Error('Invalid token type');
     }
     const user = await User.findById(payload.sub);
     if (!user) {

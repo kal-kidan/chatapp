@@ -1,18 +1,18 @@
-const express = require("express");
-const helmet = require("helmet");
-const xss = require("xss-clean");
-const mongoSanitize = require("express-mongo-sanitize");
-const compression = require("compression");
-const cors = require("cors");
-const passport = require("passport");
-const cookieParser = require("cookie-parser");
-const { errorConverter, errorHandler } = require("./middlewares/error");
-const { authLimiter } = require("./middlewares/rateLimiter");
-const { jwtStrategy } = require("./config/passport");
-const config = require("./config/config");
-const routes = require("./routes/v1");
-const ApiError = require("./utils/ApiError");
-const httpStatus = require("http-status");
+const express = require('express');
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const mongoSanitize = require('express-mongo-sanitize');
+const compression = require('compression');
+const cors = require('cors');
+const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const { errorConverter, errorHandler } = require('./middlewares/error');
+const { authLimiter } = require('./middlewares/rateLimiter');
+const { jwtStrategy } = require('./config/passport');
+const config = require('./config/config');
+const routes = require('./routes/v1');
+const ApiError = require('./utils/ApiError');
+const httpStatus = require('http-status');
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -25,20 +25,20 @@ app.use(compression());
 app.use(helmet());
 
 app.use(cors());
-app.options("*", cors());
+app.options('*', cors());
 
 app.use(passport.initialize());
 
-passport.use("jwt", jwtStrategy);
+passport.use('jwt', jwtStrategy);
 
-if (config.env === "production") {
-  app.use("/v1/auth", authLimiter);
+if (config.env === 'production') {
+  app.use('/v1/auth', authLimiter);
 }
 
-app.use("/v1", routes);
+app.use('/v1', routes);
 /* eslint-disable no-unused-vars */
 app.use((req, res, next) => {
-  next(new ApiError(httpStatus.NOT_FOUND, "Not found"));
+  next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
 });
 
 app.use(errorConverter);

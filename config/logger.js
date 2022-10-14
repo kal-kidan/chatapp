@@ -1,5 +1,5 @@
-const { createLogger, format, transports } = require("winston");
-const config = require("./config");
+const { createLogger, format, transports } = require('winston');
+const config = require('./config');
 
 const { combine, printf } = format;
 const winstonFormat = printf(
@@ -8,11 +8,11 @@ const winstonFormat = printf(
 );
 const { timestamp } = format;
 const logger = createLogger({
-  level: config.env === "development" ? "debug" : "info",
+  level: config.env === 'development' ? 'debug' : 'info',
   format: combine(
     timestamp(),
     winstonFormat,
-    config.env === "development" ? format.colorize() : format.uncolorize()
+    config.env === 'development' ? format.colorize() : format.uncolorize()
   ),
   transports: [new transports.Console()],
 });

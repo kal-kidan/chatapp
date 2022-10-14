@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-const { decrypt } = require("../../utils/crypto");
+const { decrypt } = require('../../utils/crypto');
 
 const deleteAtPath = (obj, path, index) => {
   if (index === path.length - 1) {
@@ -20,7 +20,7 @@ const toJSON = (schema) => {
     transform(doc, ret, options) {
       Object.keys(schema.paths).forEach((path) => {
         if (schema.paths[path].options && schema.paths[path].options.private) {
-          deleteAtPath(ret, path.split("."), 0);
+          deleteAtPath(ret, path.split('.'), 0);
         }
         if (schema.paths[path].options && schema.paths[path].options.decrypt) {
           ret[path] = decrypt(ret[path]);

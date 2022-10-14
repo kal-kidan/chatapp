@@ -1,17 +1,17 @@
-require("dotenv").config();
-const Joi = require("joi");
+require('dotenv').config();
+const Joi = require('joi');
 
 const envVarsSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string()
-      .valid("production", "development", "test")
+      .valid('production', 'development', 'test')
       .required(),
     PORT: Joi.number().positive().default(3000),
   })
   .unknown();
 
 const { value: envVars, error } = envVarsSchema
-  .prefs({ errors: { label: "key" } })
+  .prefs({ errors: { label: 'key' } })
   .validate(process.env);
 
 if (error) {

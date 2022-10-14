@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const { Chat, User } = require("../models");
-const { Room } = require("../models");
-const { decrypt } = require("../utils/crypto");
+const mongoose = require('mongoose');
+const { Chat, User } = require('../models');
+const { Room } = require('../models');
+const { decrypt } = require('../utils/crypto');
 // const ApiError = require("../utils/ApiError");
 
 const createMessage = async (messageBody) => {
@@ -30,19 +30,19 @@ const getRecievers = async (body) => {
       $or: [{ senderId: userId }, { recieverId: userId }],
     })
     .group({
-      _id: "$roomId",
+      _id: '$roomId',
       user: {
         $first: {
-          $cond: [{ $eq: ["$senderId", userId] }, "$recieverId", "$senderId"],
+          $cond: [{ $eq: ['$senderId', userId] }, '$recieverId', '$senderId'],
         },
       },
-      createdAt: { $first: "$createdAt" },
-      message: { $first: "$message" },
+      createdAt: { $first: '$createdAt' },
+      message: { $first: '$message' },
     })
     .sort({ createdAt: -1 });
   const users = await User.populate(
     chats.map((item) => ({ ...item, message: decrypt(item.message) })),
-    { path: "user" }
+    { path: 'user' }
   );
   return users;
 };

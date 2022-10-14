@@ -3,14 +3,14 @@
 
 module.exports = (socket) => {
   // const users = [];
-  console.log("A user connected");
-  socket.on("send", async (data) => {
+  console.log('A user connected');
+  socket.on('send', async (data) => {
     console.log(data);
-    socket.emit("message", {
+    socket.emit('message', {
       user: data.sender,
       message: data.message,
     });
     // await chatController.createMessage(data);
   });
-  socket.on("disconnect", () => {});
+  socket.on('disconnect', () => {});
 };

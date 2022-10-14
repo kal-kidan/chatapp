@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const mongoosePaginate = require("mongoose-paginate-v2");
-const { toJSON } = require("./plugins");
-const { encrypt } = require("../utils/crypto");
+const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
+const { toJSON } = require('./plugins');
+const { encrypt } = require('../utils/crypto');
 
 const chatSchema = mongoose.Schema(
   {
@@ -11,12 +11,12 @@ const chatSchema = mongoose.Schema(
     },
     senderId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     recieverId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     message: {
@@ -33,14 +33,14 @@ const chatSchema = mongoose.Schema(
 chatSchema.plugin(toJSON);
 chatSchema.plugin(mongoosePaginate);
 
-chatSchema.pre("save", async function (next) {
+chatSchema.pre('save', async function (next) {
   const user = this;
-  if (user.isModified("message")) {
+  if (user.isModified('message')) {
     user.message = encrypt(user.message);
   }
   next();
 });
 
-const Chat = mongoose.model("Chat", chatSchema);
+const Chat = mongoose.model('Chat', chatSchema);
 
 module.exports = Chat;
