@@ -3,12 +3,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LoggerService } from './services/logger.service';
 import { ErrorService } from './services/error.service';
 import { NotificationService } from './services/notification.service';
-import { environment } from 'src/environments/environment'; 
+import { environment } from 'src/environments/environment';
 import { LoaderService } from './services/loader.service';
 
 @Injectable()
-export class GlobalErrorHandler implements ErrorHandler { 
-  constructor(private injector: Injector, private loaderService: LoaderService) { 
+export class GlobalErrorHandler implements ErrorHandler {
+  constructor(private injector: Injector, private loaderService: LoaderService) {
   }
 
   handleError(error: Error | HttpErrorResponse) {
@@ -30,7 +30,7 @@ export class GlobalErrorHandler implements ErrorHandler {
       } else if (error.status === 403) {
         notifier.showError('Permission denied, user is not allowed to view this page.');
       } else if (error.status === 404) {
-        window.location.href = '/error';
+        notifier.showError("not found.")
       } else if (error.status.toString().startsWith('400')) {
         sendToGCP = false;
         notifier.showError(message);

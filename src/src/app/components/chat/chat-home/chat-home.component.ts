@@ -17,15 +17,20 @@ export class ChatHomeComponent implements OnInit {
   moment = moment;
   email = new FormControl('');
   messageContent = new FormControl('');
-  user: any = {};
+  searchedUser: any = {};
   selectedUser: string = '';
   constructor(private requestService: RequestService, private profileService: UserProfileService, private socket: SocketService, private userProfile: UserProfileService) {
     this.id= profileService.get().id;
     requestService.getReceivers(this.id!).subscribe((data: any)=>{
       this.recievers = data;
     })
+    if(this.socket.getSocket()){
+    this.socket.getSocket().on('message', (data)=>{
+      this.messages.push(data);
+    });
+    }
    }
-  ngOnInit(): void { 
+  ngOnInit(): void {
   }
   openMessages(reciever: any){
     this.selectedUser = reciever.user.id;
@@ -38,20 +43,35 @@ export class ChatHomeComponent implements OnInit {
       })
     }
     else{
-      this.messages = []; 
+      this.messages = [];
     }
   }
 
   searchUser(){
-    this.requestService.searchUser(this.email.value).subscribe((data)=>{ 
-      this.user = data;
+    this.searchedUser = {};
+    this.recievers = this.recievers.filter((currentUser: any)=> {
+      if (currentUser.user.email == this.email.value) {
+        this.searchedUser = currentUser
+        return false;
+      }
+      else{
+        return true;
+      }
     });
+
+    if(Object.keys(this.searchedUser).length == 0){
+      this.requestService.searchUser(this.email.value).subscribe((searchResult)=>{
+        this.searchedUser = {user: searchResult};
+        console.log(this.searchedUser);
+      }, (err)=>{ console.log(err);});
+    }
   }
 
   sendMessage(){
-    const data = {senderId: this.userProfile.get().id, recieverId: this.selectedUser, message: this.messageContent.value};
-    this.socket.sendMessage(data); 
-    
+    const data = {senderId: this.userProfile.get().id, recieverId: this.selectedUser, message: this.messageContent.value, createdAt: Date.now(), updatedAt: Date.now()};
+    this.socket.sendMessage(data);
+    this.messages.push(data);
+    this.messageContent.setValue('');
   }
 
 }

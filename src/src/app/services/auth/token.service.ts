@@ -6,19 +6,19 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class TokenService {
   iss: any;
-  constructor() { 
+  constructor() {
       this.iss = {
         login: 'chatapp',
         signup: 'chatapp',
-      };   
+      };
   }
 
   set(token: string) {
-    localStorage.setItem('token', token);
+    sessionStorage.setItem('token', token);
   }
 
   get() {
-    return localStorage.getItem('token')!;
+    return sessionStorage.getItem('token')!;
   }
 
   isValid() {
@@ -28,7 +28,7 @@ export class TokenService {
     if (this.get()) {
       const payload = this.getPayLoad(token);
       const isExpired = helper.isTokenExpired(token);
-      if (payload) { 
+      if (payload) {
         valid = Object.values(this.iss).indexOf(payload.iss) > -1 && !isExpired ? true : false;
       }
     }
@@ -38,7 +38,7 @@ export class TokenService {
     return valid;
   }
   clear() {
-    localStorage.removeItem('token');  
+    sessionStorage.removeItem('token');
   }
   getPayLoad(token: any) {
     var payload = token.split('.')[1];

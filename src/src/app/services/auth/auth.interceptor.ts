@@ -7,7 +7,7 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs'; 
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { LoaderService } from '../loader.service';
@@ -22,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (!storedPath?.split(',').includes(path)) {
       storedPath ? localStorage.setItem('path', path + ',' + storedPath) : localStorage.setItem('path', path);
     }
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     let nextHandle = next.handle(req);
     if (token) {
       const cloned = req.clone({
