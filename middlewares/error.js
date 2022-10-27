@@ -38,15 +38,7 @@ const errorHandler = (err, req, res, next) => {
   res.status(statusCode).send(response);
 };
 
-// eslint-disable-next-line no-unused-vars
-const unHandledError = (err) => {
-  if (config.env === 'development') {
-    logger.error(err);
-  }
-};
-
 module.exports = {
   errorConverter,
   errorHandler,
-  unHandledError,
 };

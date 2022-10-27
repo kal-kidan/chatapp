@@ -76,7 +76,7 @@
 						<div *ngIf="!messages || messages.length==0" style="text-align: center; color: #FFFFF7; margin-top: 10%;">
 							No message here yet.
 						</div>
-            <div id='chatbox'>
+            <div id='chatbox' #chatbox (scroll)="onScroll($event)" >
               <div class="msg_card_body" *ngFor="let content of messages" >
                 <div class="d-flex justify-content-start" *ngIf="content.senderId==id">
                   <div class="img_cont_msg">
@@ -84,13 +84,13 @@
                   </div>
                   <div class="msg_cotainer_send" style='margin-bottom: 5px; overflow: hidden;'>
                     <span style="margin-right: 30px">{{content.message}}</span>
-                    <small style="color: rgba(255,255,255,0.5);" *ngIf="content.senderId==id">{{moment(content.createdAt).startOf('hour').fromNow()}}</small>
+                    <small style="color: rgba(255,255,255,0.5);" *ngIf="content.senderId==id">{{moment(content.createdAt).startOf('minute').fromNow()}}</small>
                   </div>
                 </div>
                 <div class="d-flex justify-content-end mb-4" *ngIf="content.senderId!=id">
                   <div class="msg_cotainer" style=''>
                     <span style="margin-right: 30px">{{content.message}} </span>
-                    <small style="font-size: 10px; color: rgba(255,255,255,0.5);" *ngIf="content.senderId!=id">{{moment(content.createdAt).startOf('hour').fromNow()}}</small>
+                    <small style="font-size: 10px; color: rgba(255,255,255,0.5);" *ngIf="content.senderId!=id">{{moment(content.createdAt).startOf('minute').fromNow()}}</small>
                   </div>
                   <div class="img_cont_msg">
                     <img src="/assets/files/images/user.png" class="rounded-circle user_img_msg">

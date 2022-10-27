@@ -1,15 +1,19 @@
-// const chatService = require('./services/chat.service');
 const chatController = require('./controllers/chat.controller');
+const redis = require('redis');
 
-const users = {};
-module.exports = (socket) => {
-  console.log('A user connected');
-  socket.on('join', (userId) => {
-    users[userId] = socket.id;
+const redisClient = redis.createClient();
+
+module.exports = async (socket) => {
+  socket.on('join', async (userId) => {
+    if (!redisClient.isOpen) {
+      await redisClient.connect();
+    }
+
+    await redisClient.set(userId, socket.id);
   });
 
   socket.on('send', async (data) => {
-    const socketId = users[data.recieverId];
+    const socketId = await redisClient.get(data.recieverId);
     const message = {
       senderId: data.senderId,
       message: data.message,

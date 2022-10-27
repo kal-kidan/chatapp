@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UserProfileService } from 'src/app/services/auth/user-profile.service';
 import { RequestService } from 'src/app/services/request.service';
 import * as moment from 'moment';
@@ -19,6 +19,11 @@ export class ChatHomeComponent implements OnInit {
   messageContent = new FormControl('');
   searchedUser: any = {};
   selectedUser: string = '';
+  selectedRoomId: string = '';
+  lastScrollTop = 0;
+  currentMessagePage = 1;
+  disableScrollDown = false;
+  @ViewChild('chatbox') chatContainer: ElementRef;
   constructor(private requestService: RequestService, private profileService: UserProfileService, private socket: SocketService, private userProfile: UserProfileService) {
     this.id= profileService.get().id;
     requestService.getReceivers(this.id!).subscribe((data: any)=>{
@@ -32,14 +37,21 @@ export class ChatHomeComponent implements OnInit {
    }
   ngOnInit(): void {
   }
+
+  ngAfterViewChecked(){
+    this.scrollToBottom();
+  }
+
   openMessages(reciever: any){
+    this.currentMessagePage = 1;
     this.selectedUser = reciever.user.id;
+    this.selectedRoomId = reciever._id;
     if(reciever.user && reciever.user.name){
       this.userName = reciever.user.name;
     }
-    if(reciever._id){
-      this.requestService.getMessages(reciever._id, 1, 10).subscribe((data: any)=>{
-        this.messages = data.docs;
+    if(this.selectedRoomId){
+      this.requestService.getMessages(this.selectedRoomId, 1, 10).subscribe((data: any)=>{
+        this.messages = data;
       })
     }
     else{
@@ -62,8 +74,7 @@ export class ChatHomeComponent implements OnInit {
     if(Object.keys(this.searchedUser).length == 0){
       this.requestService.searchUser(this.email.value).subscribe((searchResult)=>{
         this.searchedUser = {user: searchResult};
-        console.log(this.searchedUser);
-      }, (err)=>{ console.log(err);});
+      });
     }
   }
 
@@ -72,6 +83,34 @@ export class ChatHomeComponent implements OnInit {
     this.socket.sendMessage(data);
     this.messages.push(data);
     this.messageContent.setValue('');
+    this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
   }
+
+  onScroll(event: any) {
+    let element = this.chatContainer.nativeElement
+    let atBottom = element.scrollHeight - element.scrollTop === element.clientHeight
+    this.disableScrollDown = this.disableScrollDown && atBottom ? false: true;
+    if (event.currentTarget.scrollTop <= 0) {
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollTop + 1;
+      if(this.selectedRoomId){
+        this.requestService.getMessages(this.selectedRoomId, this.currentMessagePage + 1, 10).subscribe((data: any)=>{
+          if(data.length > 0) this.currentMessagePage++;
+          this.messages =  data.concat(this.messages)
+        })
+      }
+      else{
+        this.messages = [];
+      }
+    }
+  }
+
+ scrollToBottom(): void {
+    if (this.disableScrollDown) return
+    try {
+        this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+    } catch(err) {
+
+    }
+}
 
 }

@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const { Chat, User } = require('../models');
 const { Room } = require('../models');
 const { decrypt } = require('../utils/crypto');
-// const ApiError = require("../utils/ApiError");
 
 const createMessage = async (messageBody) => {
   const { senderId } = messageBody;
@@ -48,15 +47,22 @@ const getRecievers = async (body) => {
 };
 
 const getMessages = async (roomId, userId, page, limit) => {
-  const messages = Chat.paginate(
+  let messages = await Chat.paginate(
     {
       $and: [
         { roomId },
         { $or: [{ senderId: userId }, { recieverId: userId }] },
       ],
     },
-    { page, limit }
+    {
+      page,
+      limit,
+      sort: {
+        createdAt: -1,
+      },
+    }
   );
+  messages = messages.docs.reverse();
   return messages;
 };
 

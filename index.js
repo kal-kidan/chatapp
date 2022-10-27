@@ -9,7 +9,7 @@ const httpServer = http.createServer(app);
 
 mongoose
   .connect(config.mongoose.url, config.mongoose.options)
-  .then(() => {
+  .then(async () => {
     logger.info('Connected to MongoDB');
   })
   .catch((error) => {
@@ -32,6 +32,7 @@ const unHandledError = (err) => {
   like pm2 then exit the process and another process will take over */
   server.close(() => {
     logger.info('server closed');
+    mongoose.connection.close();
     process.exit(1);
   });
 };
