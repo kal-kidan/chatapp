@@ -30,12 +30,13 @@ export class ChatHomeComponent implements OnInit {
       this.recievers = data;
     })
     if(this.socket.getSocket()){
-    this.socket.getSocket().on('message', (data)=>{
-      this.messages.push(data);
-    });
+      this.socket.getSocket().on('message', (data)=>{
+        this.messages.push(data);
+      });
     }
    }
   ngOnInit(): void {
+    this.socket.connect();
   }
 
   ngAfterViewChecked(){

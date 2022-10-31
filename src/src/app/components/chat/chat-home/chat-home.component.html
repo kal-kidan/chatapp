@@ -73,10 +73,10 @@
 							<span id="action_menu_btn"><i class="fas fa-video"></i></span>
 							<!-- <span><i class="fas fa-phone"></i></span>  -->
 						</div>
-						<div *ngIf="!messages || messages.length==0" style="text-align: center; color: #FFFFF7; margin-top: 10%;">
+						<div *ngIf="messages.length==0 || !this.selectedUser" style="text-align: center; color: #FFFFF7; margin-top: 10%;">
 							No message here yet.
 						</div>
-            <div id='chatbox' #chatbox (scroll)="onScroll($event)" >
+            <div id='chatbox' #chatbox (scroll)="onScroll($event)" *ngIf="this.selectedUser">
               <div class="msg_card_body" *ngFor="let content of messages" >
                 <div class="d-flex justify-content-start" *ngIf="content.senderId==id">
                   <div class="img_cont_msg">
