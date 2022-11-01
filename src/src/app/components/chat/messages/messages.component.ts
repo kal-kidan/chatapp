@@ -1,16 +1,16 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { UserProfileService } from 'src/app/services/auth/user-profile.service';
 import { RequestService } from 'src/app/services/request.service';
+import { SocketService } from 'src/app/services/socket.service';
 import * as moment from 'moment';
-import { FormControl } from '@angular/forms';
-import { SocketService } from '../../../services/socket.service'
+
 @Component({
-  selector: 'app-chat-home',
-  templateUrl: './chat-home.component.html',
-  styleUrls: ['./chat-home.component.css']
+  selector: 'app-messages',
+  templateUrl: './messages.component.html',
+  styleUrls: ['./messages.component.css']
 })
-export class ChatHomeComponent implements OnInit {
-  recievers: any = [];
+export class MessagesComponent implements OnInit {
   messages: any = [];
   userName: string='';
   id: any;
@@ -24,11 +24,7 @@ export class ChatHomeComponent implements OnInit {
   currentMessagePage = 1;
   disableScrollDown = false;
   @ViewChild('chatbox') chatContainer: ElementRef;
-  constructor(private requestService: RequestService, private profileService: UserProfileService, private socket: SocketService, private userProfile: UserProfileService) {
-    this.id= profileService.get().id;
-    requestService.getReceivers(this.id!).subscribe((data: any)=>{
-      this.recievers = data;
-    })
+  constructor(private requestService: RequestService, private socket: SocketService, private userProfile: UserProfileService) {
     if(this.socket.getSocket()){
       this.socket.getSocket().on('message', (data)=>{
         this.messages.push(data);
