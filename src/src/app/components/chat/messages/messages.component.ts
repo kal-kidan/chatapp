@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { UserProfileService } from 'src/app/services/auth/user-profile.service';
 import { RequestService } from 'src/app/services/request.service';
@@ -15,24 +15,35 @@ export class MessagesComponent implements OnInit {
   userName: string='';
   id: any;
   moment = moment;
-  email = new FormControl('');
   messageContent = new FormControl('');
-  searchedUser: any = {};
   selectedUser: string = '';
   selectedRoomId: string = '';
   lastScrollTop = 0;
   currentMessagePage = 1;
   disableScrollDown = false;
+  @Input() selectedUserMessage: any;
   @ViewChild('chatbox') chatContainer: ElementRef;
   constructor(private requestService: RequestService, private socket: SocketService, private userProfile: UserProfileService) {
+    this.id = this.userProfile.get().id;
     if(this.socket.getSocket()){
-      this.socket.getSocket().on('message', (data)=>{
-        this.messages.push(data);
+      this.socket.getSocket().on('message', (data: any)=>{
+        if(data.senderId == this.selectedUser){
+          this.messages.push(data);
+        }
       });
     }
    }
   ngOnInit(): void {
     this.socket.connect();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    const prevSelectedMessage = JSON.stringify(changes['selectedUserMessage'].currentValue);
+    const currSelectedMessage = JSON.stringify(changes['selectedUserMessage'].previousValue);
+    const selectedMessage = changes['selectedUserMessage'].currentValue;
+    if ( selectedMessage?._id && prevSelectedMessage !== currSelectedMessage) {
+      this.openMessages(selectedMessage);
+    }
   }
 
   ngAfterViewChecked(){
@@ -73,6 +84,18 @@ export class MessagesComponent implements OnInit {
     } catch(err) {
 
     }
-}
+  }
+
+  openMessages(selectedUserMessage: any){
+    this.currentMessagePage = 1;
+    this.selectedUser = selectedUserMessage.user.id;
+    this.selectedRoomId = selectedUserMessage._id;
+    if(this.selectedUserMessage.user && selectedUserMessage.user.name){
+      this.userName = selectedUserMessage.user.name;
+    }
+    this.selectedRoomId ? this.requestService.getMessages(this.selectedRoomId, 1, 10).subscribe((data: any)=>{
+      this.messages = data;
+    }): this.messages = [];
+  }
 
 }
