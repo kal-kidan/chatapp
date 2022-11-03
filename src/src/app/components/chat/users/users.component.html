@@ -2,7 +2,7 @@
 <div >
   <div class="card-header">
     <div class="input-group">
-      <input type="email" placeholder="Search..." value="" [formControl]="email" class="form-control search">
+      <input type="email" placeholder="Search..." value="" [formControl]="keyword" (keyup)="searchUser()" class="form-control search">
       <div class="input-group-prepend" style="cursor: pointer;" (click)="searchUser()">
         <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
       </div>
@@ -12,35 +12,17 @@
     <div class="card mb-sm-3 mb-md-0 contacts_card">
       <!-- recievers -->
       <div class="card-body contacts_body">
-        <!-- search results -->
-        <u class="contacts" style="cursor: pointer; text-decoration: none" *ngIf="searchedUser?.user?.name">
-          <li class="active" (click)="openMessages(searchedUser)">
-            <div class="d-flex bd-highlight">
-              <div class="img_cont">
-                <img src="/assets/files/images/user.png" class="rounded-circle user_img">
-                <span class="online_icon"></span>
-              </div>
-              <div class="user_info">
-                <span>{{searchedUser.user.name}}</span>
-                <p *ngIf="searchedUser.user.message" style="font-size: 12px;">{{searchedUser.user.message.slice(0, 12)}}
-                </p>
-                <p *ngIf="searchedUser.user.message && searchedUser.user.message.length>12"> ...</p>
-              </div>
-            </div>
-          </li>
-        </u>
         <u class="contacts" *ngFor="let reciever of recievers " style="cursor: pointer; text-decoration: none"
           (click)="openMessages(reciever)">
           <li class="active">
             <div class="d-flex bd-highlight">
               <div class="img_cont">
                 <img src="/assets/files/images/user.png" class="rounded-circle user_img">
-                <span class="online_icon"></span>
               </div>
               <div class="user_info">
                 <span>{{reciever.user.name}}</span>
-                <p style="font-size: 12px;">{{reciever.message.slice(0, 12)}}</p>
-                <p *ngIf="reciever.message.length>12"> ...</p>
+                <p style="font-size: 12px;">{{reciever.message?.slice(0, 12)}}</p>
+                <p *ngIf="reciever.message?.length>12"> ...</p>
               </div>
             </div>
           </li>

@@ -6,7 +6,7 @@ const userController = require('../../controllers/user.controller');
 const router = express.Router();
 
 router
-  .route('/:email')
-  .get(validate(userValidation.getUserByEmail), userController.searchUser);
+  .route('/:keyword')
+  .get(validate(userValidation.searchUser), userController.searchUser);
 
 module.exports = router;

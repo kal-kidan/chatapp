@@ -22,8 +22,15 @@ const getUserByEmail = {
   }),
 };
 
+const searchUser = {
+  params: Joi.object().keys({
+    keyword: Joi.string(),
+  }),
+};
+
 module.exports = {
   createUser,
   getUser,
   getUserByEmail,
+  searchUser,
 };

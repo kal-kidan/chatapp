@@ -22,7 +22,7 @@ export class RequestService {
     }});
   }
 
-  searchUser(email: string){
-    return this._http.get(`${this.rootUrl}/users/${email}`);
+  searchUser(keyword: string){
+    return this._http.get(`${this.rootUrl}/users/${keyword}`);
   }
 }

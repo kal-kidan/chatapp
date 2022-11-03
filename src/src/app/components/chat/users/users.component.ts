@@ -11,13 +11,15 @@ import { SocketService } from 'src/app/services/socket.service';
 export class UsersComponent implements OnInit {
 
   recievers: any = [];
-  email = new FormControl('');
+  keyword = new FormControl('');
   searchedUser: any = {};
   selectedUser: string = '';
+  talkedUsers: any = []
   @Output () emitter: EventEmitter<Object> = new EventEmitter<Object> ();
   constructor(private requestService: RequestService, private socket: SocketService, private profileService: UserProfileService) {
     requestService.getReceivers(profileService.get().id!).subscribe((data: any)=>{
       this.recievers = data;
+      this.talkedUsers = data;
     })
    }
 
@@ -25,26 +27,23 @@ export class UsersComponent implements OnInit {
   }
 
   openMessages(reciever: any){
+    console.log(reciever);
+
     this.emitter.emit(reciever);
   }
 
   searchUser(){
-    this.searchedUser = {};
-    this.recievers = this.recievers.filter((currentUser: any)=> {
-      if (currentUser.user.email == this.email.value) {
-        this.searchedUser = currentUser
-        return false;
-      }
-      else{
-        return true;
-      }
-    });
-
-    if(Object.keys(this.searchedUser).length == 0){
-      this.requestService.searchUser(this.email.value).subscribe((searchResult)=>{
-        this.searchedUser = {user: searchResult};
+    if (this.keyword.value) {
+      this.searchedUser = {};
+      this.requestService.searchUser(this.keyword.value).subscribe((searchResult)=>{
+       this.recievers = searchResult;
       });
     }
+    else{
+      this.recievers = this.talkedUsers;
+    }
+
+
   }
 
 

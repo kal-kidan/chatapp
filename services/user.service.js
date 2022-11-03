@@ -18,8 +18,16 @@ const getUserByEmail = async (email) => {
   return user;
 };
 
+const searchUser = async (keyword) => {
+  const users = await User.find({
+    $or: [{ email: keyword }, { name: { $regex: `.*${keyword}.*` } }],
+  });
+  return users.map((user) => ({ user }));
+};
+
 module.exports = {
   createUser,
   getUserById,
   getUserByEmail,
+  searchUser,
 };
